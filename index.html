@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>API home</title>
+    <style>
+        body {
+            background-color: gray;
+            font-family: Arial, sans-serif;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="userId"></div> <!-- Element om het gebruikers-ID weer te geven -->
+    <h1>Beer-Casus</h1>
+    <a href="login.html"><button>Logout</button></a>
+    <br><br>
+    <table id="beerTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Brewer</th>
+            </tr>
+        </thead>
+        <tbody id="beers">
+            <!-- Table rows will be dynamically added here -->
+        </tbody>
+    </table>
+
+    <script>
+        // Functie om het gebruikers-ID weer te geven
+        function displayUserId(userId) {
+            const userIdContainer = document.getElementById('userId');
+            userIdContainer.textContent = 'User ID: ' + userId;
+        }
+
+        // Haal de opgeslagen e-mail op uit de lokale opslag (localStorage)
+        const loggedInUserEmail = localStorage.getItem('loggedInUserEmail');
+
+        // Als de e-mail is opgeslagen, maak een API-aanroep om de gebruikersgegevens op te halen
+        if (loggedInUserEmail) {
+            fetch('http://localhost/frontend/bier_casus_O-C_2/api(1).php', { mode: 'cors' })
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (data) {
+                    console.log('Request successful', data);
+
+                    // Zoek de gebruiker met de overeenkomende e-mail
+                    const user = data.find(function (user) {
+                        return user.email === loggedInUserEmail;
+                    });
+
+                    // Als de gebruiker is gevonden, toon het ID
+                    if (user) {
+                        displayUserId(user.id);
+                    } else {
+                        location.href = 'login.html';
+                    }
+                })
+                .catch(function (error) {
+                    console.log('Request failed', error)
+                    location.href = 'login.html';
+                });
+        } else {
+            location.href = 'login.html';
+        }
+
+        // Functie om de tabel met biergegevens op te bouwen
+        function populateTable(data) {
+            const tableBody = document.getElementById("beers");
+
+            data.forEach(function (item) {
+                const newRow = document.createElement("tr");
+                const idCell = document.createElement("td");
+                const nameCell = document.createElement("td");
+                const brewerCell = document.createElement("td");
+
+                idCell.textContent = item.id;
+                nameCell.textContent = item.name;
+                brewerCell.textContent = item.brewer;
+
+                newRow.appendChild(idCell);
+                newRow.appendChild(nameCell);
+                newRow.appendChild(brewerCell);
+
+                tableBody.appendChild(newRow);
+            });
+        }
+
+        // Maak een API-aanroep om de biergegevens op te halen en de tabel op te bouwen
+        fetch('http://localhost/frontend/bier_casus_O-C_2/api.php', { mode: 'cors' })
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                console.log('Request successful', data);
+                populateTable(data);
+            })
+            .catch(function (error) {
+                console.log('Request failed', error)
+            });
+    </script>
+</body>
+
+</html>

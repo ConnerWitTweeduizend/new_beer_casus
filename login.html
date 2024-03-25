@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API login</title>
+</head>
+
+<body style="background-color: gray;">
+    <h1>Login</h1>
+    <form id="loginForm" action="POST">
+        <p>Enter email</p>
+        <input type="text" id="emailInput" name="email" required>
+        <button type="submit">Login</button>
+    </form>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Voorkom dat het formulier wordt verzonden
+
+            // Haal de ingevoerde e-mail op uit het formulier
+            const email = document.getElementById('emailInput').value;
+
+            // Haal de gebruikersgegevens op via de API
+            fetch('http://localhost/frontend/bier_casus_O-C_2/api(1).php', { mode: 'cors' })
+                .then(function(response) {
+                    return response.json();
+                })
+                .then(function(data) {
+                    console.log('Request successful', data);
+
+                    // Controleer of de ingevoerde e-mail overeenkomt met een e-mail in de database
+                    const user = data.find(function(user) {
+                        return user.email === email;
+                    });
+
+                    if (user) {
+                        // Als de gebruiker is gevonden, sla de e-mail op in de lokale opslag
+                        localStorage.setItem('loggedInUserEmail', email);
+
+                        // Stuur de gebruiker door naar index.html
+                        window.location.href = 'http://localhost/frontend/bier_casus_O-C_2/index.html';
+                    } else {
+                        // Als de gebruiker niet is gevonden, geef een foutmelding
+                        alert('Invalid email. Please try again.');
+                    }
+                })
+                .catch(function(error) {
+                    console.log('Request failed', error)
+                });
+        });
+    </script>
+</body>
+
+</html>
