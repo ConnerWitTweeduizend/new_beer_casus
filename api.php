@@ -15,7 +15,7 @@ try {
 function getBeerData($dbh)
 {
     $sql = 'SELECT beers.id, beers.name, beers.brewer, beer_ratings.rating, beer_ratings.note 
-            FROM beers
+            FROM beers, beer_ratings
             LEFT JOIN beer_ratings ON beers.id = beer_ratings.beer_id
             ORDER BY beers.id';
     $stmt = $dbh->prepare($sql);
