@@ -10,6 +10,7 @@ try {
 
 // Functie om beoordelingsgegevens toe te voegen aan de database
 // Functie om beoordelingsgegevens toe te voegen of bij te werken in de database
+// Functie om beoordelingsgegevens toe te voegen of bij te werken in de database
 function addOrUpdateRating($dbh, $userId, $beerId, $rating, $note)
 {
     // Controleer eerst of er al een beoordeling bestaat voor het specifieke biertje en de gebruiker
@@ -44,6 +45,7 @@ function addOrUpdateRating($dbh, $userId, $beerId, $rating, $note)
 }
 
 
+
 // Haal de ontvangen gegevens op vanuit het POST-verzoek
 $data = json_decode(file_get_contents("php://input"));
 
@@ -62,4 +64,3 @@ if (isset($data->userId, $data->beerId, $data->rating, $data->note)) {
     // Stuur een foutmelding JSON-respons terug als vereiste velden ontbreken
     echo json_encode(array("error" => "Missing required fields"));
 }
-

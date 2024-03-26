@@ -151,14 +151,20 @@
                 const idCell = document.createElement("td");
                 const nameCell = document.createElement("td");
                 const brewerCell = document.createElement("td");
+                const ratingCell = document.createElement("td");
+                const noteCell = document.createElement("td");
 
                 idCell.textContent = item.id;
                 nameCell.textContent = item.name;
                 brewerCell.textContent = item.brewer;
+                ratingCell.textContent = item.rating;
+                noteCell.textContent = item.note;
 
                 newRow.appendChild(idCell);
                 newRow.appendChild(nameCell);
                 newRow.appendChild(brewerCell);
+                newRow.appendChild(ratingCell);
+                newRow.appendChild(noteCell);
 
                 tableBody.appendChild(newRow);
             });
