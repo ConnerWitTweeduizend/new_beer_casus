@@ -34,6 +34,10 @@
                 <th>ID</th>
                 <th>Name</th>
                 <th>Brewer</th>
+                <th>Personal Rating</th>
+                <th>Personal Note</th>
+                <th>New Rating</th>
+                <th>New Note</th>
             </tr>
         </thead>
         <tbody id="beers">
@@ -67,7 +71,7 @@
 
                     // Als de gebruiker is gevonden, toon het ID
                     if (user) {
-                        displayUserId(user.id);
+                        displayUserId(userid);
                     } else {
                         location.href = 'login.html';
                     }
