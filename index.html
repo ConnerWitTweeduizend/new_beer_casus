@@ -63,6 +63,22 @@
     <h1>Beer-Casus</h1>
     <a href="login.html"><button>Logout</button></a>
     <br><br>
+    <!-- Voeg dit formulier toe aan de HTML -->
+    <h2>Rating Form</h2>
+    <form id="ratingForm">
+        <label for="beerId">Beer ID:</label>
+        <input type="text" id="beerId" name="beerId" required><br><br>
+
+        <label for="rating">Rating (1-5):</label>
+        <input type="number" id="rating" name="rating" min="1" max="5" required><br><br>
+
+        <label for="note">Note:</label><br>
+        <textarea id="note" name="note" rows="4" cols="50"></textarea><br><br>
+
+        <button type="button" onclick="saveRating()">Save</button>
+    </form>
+
+    <br><br>
     <table id="beerTable">
         <thead>
             <tr>
@@ -139,7 +155,50 @@
         // Event listener for close button in modal
         document.getElementsByClassName("close")[0].addEventListener("click", closeModal);
 
-        // Make an API call to fetch beer data and populate the table
+        // Function to save the rating
+        function saveRating() {
+            const beerId = document.getElementById("beerId").value;
+            const rating = document.getElementById("rating").value;
+            const note = document.getElementById("note").value;
+
+            // Haal het gebruikers-ID op uit de lokale opslag
+            const loggedInUserId = localStorage.getItem('loggedInUserId');
+
+            // Controleer of alle velden zijn ingevuld
+            if (beerId && rating && note && loggedInUserId) {
+                // Maak een object met de beoordelingsgegevens
+                const ratingData = {
+                    userId: loggedInUserId,
+                    beerId: beerId,
+                    rating: rating,
+                    note: note
+                };
+
+                // Verstuur de beoordeling naar de server via een POST-verzoek
+                fetch('http://localhost/frontend/new_beer_casus/api(2).php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(ratingData),
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Rating saved:', data);
+                        // Maak de invoervelden leeg
+                        document.getElementById("beerId").value = "";
+                        document.getElementById("rating").value = "";
+                        document.getElementById("note").value = "";
+                    })
+                    .catch((error) => {
+                        console.error('Error saving rating:', error);
+                    });
+            } else {
+                console.error('Please fill in all fields.');
+            }
+        }
+
+        // Maak een API-aanroep om de biergegevens op te halen en de tabel op te bouwen
         fetch('http://localhost/frontend/new_beer_casus/api.php', { mode: 'cors' })
             .then(function (response) {
                 return response.json();
