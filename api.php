@@ -1,8 +1,4 @@
 <?php
-
-
-
-
 try {
     $user = 'root';
     $pass = '';
@@ -12,16 +8,16 @@ try {
     die();
 }
 
-function getBeerData($dbh)
+function showBeers($dbh)
 {
     $sql = 'SELECT beers.id, beers.name, beers.brewer, beer_ratings.rating, beer_ratings.note 
-            FROM beers, beer_ratings
+            FROM beers
             LEFT JOIN beer_ratings ON beers.id = beer_ratings.beer_id
             ORDER BY beers.id';
     $stmt = $dbh->prepare($sql);
     $stmt->execute();
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    return $result;
+    return json_encode($result);
 }
 
-echo json_encode(getBeerData($dbh));
+echo showBeers($dbh);   
