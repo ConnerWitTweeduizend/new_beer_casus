@@ -16,7 +16,7 @@
     </form>
 
     <script>
-        document.getElementById('loginForm').addEventListener('submit', function(event) {
+        document.getElementById('loginForm').addEventListener('submit', function (event) {
             event.preventDefault(); // Voorkom dat het formulier wordt verzonden
 
             // Haal de ingevoerde e-mail op uit het formulier
@@ -24,20 +24,21 @@
 
             // Haal de gebruikersgegevens op via de API
             fetch('http://localhost/frontend/new_beer_casus/api(1).php', { mode: 'cors' })
-                .then(function(response) {
+                .then(function (response) {
                     return response.json();
                 })
-                .then(function(data) {
+                .then(function (data) {
                     console.log('Request successful', data);
 
                     // Controleer of de ingevoerde e-mail overeenkomt met een e-mail in de database
-                    const user = data.find(function(user) {
+                    const user = data.find(function (user) {
                         return user.email === email;
                     });
 
                     if (user) {
-                        // Als de gebruiker is gevonden, sla de e-mail op in de lokale opslag
+                        // Als de gebruiker is gevonden, sla de e-mail en het ID op in de lokale opslag
                         localStorage.setItem('loggedInUserEmail', email);
+                        localStorage.setItem('loggedInUserId', user.id); // Nieuwe regel
 
                         // Stuur de gebruiker door naar index.html
                         window.location.href = 'http://localhost/frontend/new_beer_casus/index.html';
@@ -46,7 +47,7 @@
                         alert('Invalid email. Please try again.');
                     }
                 })
-                .catch(function(error) {
+                .catch(function (error) {
                     console.log('Request failed', error)
                 });
         });
