@@ -57,7 +57,7 @@
 
         // Als de e-mail is opgeslagen, maak een API-aanroep om de gebruikersgegevens op te halen
         if (loggedInUserEmail) {
-            fetch('http://localhost/frontend/bier_casus_O-C_2/api(1).php', { mode: 'cors' })
+            fetch('http://localhost/frontend/new_beer_casus/api(1).php', { mode: 'cors' })
                 .then(function (response) {
                     return response.json();
                 })
@@ -107,7 +107,7 @@
         }
 
         // Maak een API-aanroep om de biergegevens op te halen en de tabel op te bouwen
-        fetch('http://localhost/frontend/bier_casus_O-C_2/api.php', { mode: 'cors' })
+        fetch('http://localhost/frontend/new_beer_casus/api.php', { mode: 'cors' })
             .then(function (response) {
                 return response.json();
             })
