@@ -6,14 +6,75 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>API login</title>
 </head>
+<style>
+    body {
+        background-image: url(bierfoto.jpg);
+        background-color: gray;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        color: white;
+    }
+
+    .login-container {
+        background-color: rgba(0, 0, 0, 0.7);
+        /* Semi-transparent background for better readability */
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    h1 {
+        margin-bottom: 20px;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    input[type="text"] {
+        padding: 10px;
+        margin-bottom: 10px;
+        width: 250px;
+        border-radius: 5px;
+        border: none;
+    }
+
+    button {
+        padding: 10px 20px;
+        background-color: #ff9900;
+        /* Orange color for contrast */
+        border: none;
+        border-radius: 5px;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    button:hover {
+        background-color: #cc6600;
+        /* Darker shade of orange on hover */
+    }
+</style>
 
 <body style="background-color: gray;">
-    <h1>Login</h1>
-    <form id="loginForm" action="POST">
-        <p>Enter email</p>
-        <input type="text" id="emailInput" name="email" required>
-        <button type="submit">Login</button>
-    </form>
+    <div class="login-container">
+        <h1>Login</h1>
+        <form id="loginForm" action="POST">
+            <p>Enter email</p>
+            <input type="text" id="emailInput" name="email" required>
+            <button type="submit">Login</button>
+        </form>
+    </div>
 
     <script>
         document.getElementById('loginForm').addEventListener('submit', function (event) {
