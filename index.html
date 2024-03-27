@@ -58,6 +58,19 @@
             <!-- Table rows will be dynamically added here -->
         </tbody>
     </table>
+    <br><br><br><br>
+    <table id="beerTable2">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Brewer</th>
+            </tr>
+        </thead>
+        <tbody id="beers2">
+
+        </tbody>
+    </table>
 
     <script>
         // Functie om de beoordeling op te slaan
@@ -171,7 +184,7 @@
         }
 
         // Maak een API-aanroep om de biergegevens op te halen en de tabel op te bouwen
-        fetch('http://localhost/frontend/new_beer_casus/api.php', { mode: 'cors' })
+        fetch('http://localhost/frontend/new_beer_casus/api.php?user_id=' + localStorage.getItem('loggedInUserId'), { mode: 'cors' })
             .then(function (response) {
                 return response.json();
             })
@@ -180,6 +193,38 @@
                 populateTable(data);
             })
             .catch(function (error) {
+                console.log('Request failed', error)
+            });
+
+        function populateSecondTable(data) {
+            const tableBody_1 = document.getElementById("beers2");
+
+            data.forEach(function (item_1) {
+                const newRow_1 = document.createElement("tr");
+                const idCell_1 = document.createElement("td");
+                const nameCell_1 = document.createElement("td");
+                const brewerCell_1 = document.createElement("td");
+
+                idCell_1.textContent = item_1.id;
+                nameCell_1.textContent = item_1.name;
+                brewerCell_1.textContent = item_1.brewer;
+
+                newRow_1.appendChild(idCell_1);
+                newRow_1.appendChild(nameCell_1);
+                newRow_1.appendChild(brewerCell_1);
+
+                tableBody_1.appendChild(newRow_1);
+            });
+        }
+        fetch('http://localhost/frontend/new_beer_casus/api(3).php', {mode: 'cors'})
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(data) {
+                console.log('Request successful', data);
+                populateSecondTable(data);
+            })
+            .catch(function(error) {
                 console.log('Request failed', error)
             });
     </script>

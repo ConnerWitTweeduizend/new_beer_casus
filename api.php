@@ -10,11 +10,14 @@ try {
 
 function showBeers($dbh)
 {
+    $userID = $_GET["user_id"];
     $sql = 'SELECT beers.id, beers.name, beers.brewer, beer_ratings.rating, beer_ratings.note 
-            FROM beers
-            LEFT JOIN beer_ratings ON beers.id = beer_ratings.beer_id
+            FROM beer_ratings
+            LEFT JOIN beers ON beers.id = beer_ratings.beer_id
+            WHERE beer_ratings.user_id = :userID
             ORDER BY beers.id';
     $stmt = $dbh->prepare($sql);
+    $stmt->bindParam(':userID', $_GET["user_id"]);
     $stmt->execute();
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     return json_encode($result);
