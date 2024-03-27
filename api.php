@@ -15,7 +15,7 @@ function showBeers($dbh)
             FROM beer_ratings
             LEFT JOIN beers ON beers.id = beer_ratings.beer_id
             WHERE beer_ratings.user_id = :userID
-            ORDER BY beers.id';
+            ORDER BY beer_ratings.created_at';
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(':userID', $_GET["user_id"]);
     $stmt->execute();
